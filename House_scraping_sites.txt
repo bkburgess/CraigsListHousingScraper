@@ -1,0 +1,56 @@
+US
+[x] craigslist
+[ ] zillow
+[ ] trulia
+[ ] zumper
+
+
+Germany
+        [ ] Just Landed
+        [ ] EasyWG
+        [ ] Medici Living
+        [ ] Wimdu
+        [ ] City Wohnen
+        [ ] Clickflatshare
+        [ ] Sublet.com
+        [ ] The Local
+        [ ] Century21
+        [ ] Nestpick
+        [ ] Tempoflat
+        [ ] ImmobilienScout24
+        [ ] Zwitehand
+        [ ] Immowelt
+        [ ] Wohnungs Boerse
+        [ ] WG-Gesucht
+        [ ] Studenten WG
+        [ ] Wohnungsmarkt24
+        [ ] Immobilo
+        [ ] Nestoria
+        [ ] Vermietung-Online
+        [ ] Wohnungsboerse
+        [ ] Studenten-Wohnung
+        [ ] Immonet
+        [ ] atHome
+        [ ] My-next-home
+        [ ] Wohnung Jezt
+        [ ] Kalaydo
+        [ ] Null-Provision
+        [ ] Meinestadt
+        [ ] Quoka
+
+    Berlin
+            [ ] White Apartments
+            [ ] Only Apartments Berlin
+            [ ] Uraban ApartmentsWohnungssuche Berlin
+            [ ] Coming Home
+            [ ] WGBerlin
+            [x] Craigslist Berlin
+    
+Netherlands
+France
+Canada
+Uruguay
+Croatia
+Sweden
+Denmark
+Iceland
