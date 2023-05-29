@@ -13,7 +13,7 @@ from time import sleep
 from datetime import date
 import logging
 
-from pathlib import Path, is_file
+from pathlib import Path
 SAVE_PATH = Path(__file__).parent / "data"
 
 
