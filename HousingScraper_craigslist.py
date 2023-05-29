@@ -9,10 +9,19 @@ from bs4 import BeautifulSoup
 from requests import get
 import pandas as pd
 import numpy as np
-import time
+from time import sleep
+from datetime import date
+import logging
+
+from pathlib import Path, is_file
+SAVE_PATH = Path(__file__).parent / "data"
+
 
 def setup():
     headers = ({'User-Agent': 'Mozilla/5.0 (windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'})
+
+    # logging.basicConfig(level=logging.DEBUG)
+    logging.debug(f"data path is {SAVE_PATH}")
 
     # apply filters
     region = 'sfbay'
@@ -41,9 +50,9 @@ def extract(headers, region, params, data):
 
         # set target url with params
         url = f'https://{region}.craigslist.org/d/apts-housing-for-rent/search/apa?s={n*120}'
-        for k,v in params.items():
-            if v:
-                url = "&".join([url, f"{k}={v}"])
+        for key, value in params.items():
+            if value:
+                url = "&".join([url, f"{key}={value}"])
         
         # get webpage
         response = get(url, headers=headers)
@@ -57,12 +66,15 @@ def extract(headers, region, params, data):
         
         # extract info from housing cards
         for house in house_containers:
+
+            # Get the prices of housing options
             price = house.find('span', class_ = "result-price")
             if price: 
                 if price.text[0] == '$': data['prices'] += [int(price.text[1:])]
                 else: data['prices'] += [int(price.text)]
             else: data['prices'] += [None]
             
+            # Get the location of housing options
             location = house.find('span', class_ = "result-hood")
             if location: data['locations'] += [location.text]
             else: data['locations'] += [None]
@@ -75,24 +87,35 @@ def extract(headers, region, params, data):
                 
             else: data['housings'] += [None]
             
+            # Get the date the listing was posted
             post_date = house.find('time', class_ = "result-date")
             if post_date: data['post_dates'] += [post_date.text]
             else: data['post_dates'] += [None]
             
+            # Get the url to the listing
             link = house.find('a', class_="result-title hdrlnk").get('href')
             data['links'] += [link]
         
-        time.sleep(np.random.random()*2)
+        sleep(np.random.random()*2)
     return data
 
 
-def save_to_csv(data):
+def save_to_csv(data, region):
     # save to file
     pd_data = pd.DataFrame.from_dict(data)
     pd_data = pd_data.sort_values(by="prices")
-    pd_data.to_csv("~/Documents/FindHousing/ScrapedCraigslist.csv")
+    # set file name to include region, search date, and count for multiple searches in same day
+    file_name = configure_file_name(region)
+    pd_data.to_csv(str(SAVE_PATH / file_name))
+
+def configure_file_name(region):
+    file_name = f"{region}_housing_{date.today().isoformat()}"
+    i = 1
+    while Path(SAVE_PATH / file_name / f"_search_{i}.csv").is_file(): i += 1
+    return file_name + f"_search{i}.csv"
+
 
 if __name__ == '__main__':
     headers, region, params, data = setup()
     data = extract(headers, region, params, data)
-    save_to_csv(data)
+    save_to_csv(data, region)
